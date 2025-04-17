@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Employee List{% endblock %}
+
+{% block content %}
+  <div class="min-h-full" x-data="{ mobileMenuOpen: false, userMenuOpen: false }">
+
+    <!-- Navigation -->
+    {% include 'shop/partials/nav.html' %}
+
+    <main class="-mt-32">
+      <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+        <div class="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
+
+          <div class="">
+            <div class="flow-root">
+              <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                  <table class="min-w-full divide-y divide-gray-300">
+                    <thead>
+                      <tr>
+                        <th scope="col"
+                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">
+                          Employee ID</th>
+                        <th scope="col"
+                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                          Name</th>
+                        <th scope="col"
+                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                          Email</th>
+                        <th scope="col"
+                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                          Role</th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-3">
+                          <span class="sr-only">Edit</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                      {% for employee in employees %}
+                        <tr class="even:bg-gray-50">
+                          <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
+                            {{ employee.id }}</td>
+                          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ employee.first_name }} {{ employee.last_name }}</td>
+                          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ employee.email }}</td>
+                          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            {% if employee.groups.filter(name="Employee").exists %}Employee{% else %}Admin{% endif %}
+                          </td>
+                          <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
+                            <a href="{% url 'accounts:edit_employee' employee.id %}"
+                               class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    {% include 'shop/partials/footer.html' %}
+
+  </div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'shop/js/includes.js' %}"></script>
+{% endblock %}

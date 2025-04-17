@@ -10,11 +10,11 @@
     <form class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16" method="POST" action="{% url 'cart:update' %}">
       {% csrf_token %}
       <!-- Items Section -->
-      <section aria-labelledby="cart-heading" class="lg:col-span-7">
+      <section aria-labelledby="cart-heading" class="lg:col-span-7" x-data="cart()">
         <h2 id="cart-heading" class="sr-only">Items in your shopping cart</h2>
         <ul role="list" class="divide-y divide-gray-200 border-b border-t border-gray-200">
           {% for item in cart_items %}
-          <li class="flex py-6 sm:py-10">
+          <li class="flex py-6 sm:py-10" x-data="{ quantity: {{ item.quantity }} }">
             <div class="shrink-0">
               <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
                    class="h-24 w-24 rounded-md object-cover sm:h-48 sm:w-48">
@@ -42,7 +42,7 @@
                 </div>
                 <div class="mt-4 sm:mt-0 sm:pr-9 relative">
                   <div class="grid w-full max-w-16 grid-cols-1">
-                    <select name="quantity_{{ forloop.counter0 }}" aria-label="Quantity, {{ item.product.name }}"
+                    <select x-model="quantity" x-on:change="updateQuantity({{ item.id }}, quantity)" aria-label="Quantity, {{ item.product.name }}"
                             class="appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
                       {% for i in "12345678"|slice:":8" %}
                         <option value="{{ forloop.counter }}"
@@ -59,12 +59,10 @@
                     </svg>
                   </div>
                   <div class="absolute right-0 top-0">
-                    <button type="button"
-                            class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
-                            data-item-id="{{ item.id }}">
+                    <button type="button" x-on:click="removeItem({{ item.id }})"
+                            class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
                       <span class="sr-only">Remove</span>
-                      <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor"
-                           aria-hidden="true">
+                      <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path
                           d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
                       </svg>

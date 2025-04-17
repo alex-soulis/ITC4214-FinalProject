@@ -28,6 +28,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
     });
 
+    function removeItem(itemId) {
+        console.log('Removing item with ID:', itemId);
+        // Add the necessary logic to remove the item from the cart.
+    }
+
     // Wait for all includes to be completed
     await Promise.all(fetches);
 });

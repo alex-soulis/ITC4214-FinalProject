@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Add Product – My E‑commerce Site{% endblock %}
+
+{% block content %}
+<div class="min-h-full" x-data="{ mobileMenuOpen: false, userMenuOpen: false }">
+  {% include 'shop/partials/employee_nav.html' %}
+  <main class="-mt-32">
+    <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+      <div class="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
+
+        <form method="POST" enctype="multipart/form-data" class="space-y-12">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <div class="space-y-12">
+            <div class="border-b border-gray-900/10 pb-12">
+              <h2 class="text-base font-semibold text-gray-900">Product Details</h2>
+              <p class="mt-1 text-sm text-gray-600">
+                Fill in all the fields to add a new product to the catalog.
+              </p>
+
+              <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <!-- Name -->
+                <div class="sm:col-span-4">
+                  <label for="{{ form.name.id_for_label }}"
+                         class="block text-sm font-medium text-gray-900">
+                    Name
+                  </label>
+                  <div class="mt-2">
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                  </div>
+                </div>
+
+                <!-- Description -->
+                <div class="col-span-full">
+                  <label for="{{ form.description.id_for_label }}"
+                         class="block text-sm font-medium text-gray-900">
+                    Description
+                  </label>
+                  <div class="mt-2">
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                  </div>
+                </div>
+
+                <!-- Price -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.price.id_for_label }}"
+                         class="block text-sm font-medium text-gray-900">
+                    Price
+                  </label>
+                  <div class="mt-2">
+                    {{ form.price }}
+                    {{ form.price.errors }}
+                  </div>
+                </div>
+
+                <!-- Stock -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.stock.id_for_label }}"
+                         class="block text-sm font-medium text-gray-900">
+                    Stock
+                  </label>
+                  <div class="mt-2">
+                    {{ form.stock }}
+                    {{ form.stock.errors }}
+                  </div>
+                </div>
+
+                <!-- Category -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.category.id_for_label }}"
+                         class="block text-sm font-medium text-gray-900">
+                    Category
+                  </label>
+                  <div class="mt-2">
+                    {{ form.category }}
+                    {{ form.category.errors }}
+                  </div>
+                </div>
+
+                <!-- Color -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.color.id_for_label }}"
+                         class="block text-sm font-medium text-gray-900">
+                    Color
+                  </label>
+                  <div class="mt-2">
+                    {{ form.color }}
+                    {{ form.color.errors }}
+                  </div>
+                </div>
+
+                <!-- Size -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.size.id_for_label }}"
+                         class="block text-sm font-medium text-gray-900">
+                    Size
+                  </label>
+                  <div class="mt-2">
+                    {{ form.size }}
+                    {{ form.size.errors }}
+                  </div>
+                </div>
+
+                <!-- Image -->
+                <div class="sm:col-span-3">
+                  <label for="{{ form.image.id_for_label }}"
+                         class="block text-sm font-medium text-gray-900">
+                    Image
+                  </label>
+                  <div class="mt-2">
+                    {{ form.image }}
+                    {{ form.image.errors }}
+                  </div>
+                </div>
+
+                <!-- Available -->
+                <div class="sm:col-span-3">
+                  <label for="{{ form.available.id_for_label }}"
+                         class="block text-sm font-medium text-gray-900">
+                    Available
+                  </label>
+                  <div class="mt-2">
+                    {{ form.available }}
+                    {{ form.available.errors }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="mt-6 flex justify-end space-x-6">
+            <a href="{% url 'shop:list' %}"
+               class="text-sm font-semibold text-gray-900">
+              Cancel
+            </a>
+            <button type="submit"
+                    class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600">
+              Add Product
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'shop/js/includes.js' %}"></script>
+{% endblock %}

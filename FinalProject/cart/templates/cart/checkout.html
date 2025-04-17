@@ -42,78 +42,13 @@
                        class="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
               </div>
             </div>
-            <div class="sm:col-span-2">
-              <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
-              <div class="mt-2">
-                <input type="text" name="company" id="company"
-                       class="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
-              </div>
-            </div>
-            <div class="sm:col-span-2">
-              <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-              <div class="mt-2">
-                <input type="text" name="address" id="address" autocomplete="street-address"
-                       class="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
-              </div>
-            </div>
-            <div class="sm:col-span-2">
-              <label for="apartment" class="block text-sm font-medium text-gray-700">Apartment, suite, etc.</label>
-              <div class="mt-2">
-                <input type="text" name="apartment" id="apartment"
-                       class="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
-              </div>
-            </div>
-            <div>
-              <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-              <div class="mt-2">
-                <input type="text" name="city" id="city" autocomplete="address-level2"
-                       class="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
-              </div>
-            </div>
-            <div>
-              <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
-              <div class="mt-2 grid grid-cols-1 relative">
-                <select id="country" name="country" autocomplete="country-name"
-                        class="w-full appearance-none rounded-md bg-white py-2 pl-3 pr-8 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>Mexico</option>
-                </select>
-                <svg class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-5 text-gray-500"
-                     viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd"
-                        d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"
-                        clip-rule="evenodd" />
-                </svg>
-              </div>
-            </div>
-            <div>
-              <label for="region" class="block text-sm font-medium text-gray-700">State / Province</label>
-              <div class="mt-2">
-                <input type="text" name="region" id="region" autocomplete="address-level1"
-                       class="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
-              </div>
-            </div>
-            <div>
-              <label for="postal-code" class="block text-sm font-medium text-gray-700">Postal code</label>
-              <div class="mt-2">
-                <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
-                       class="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
-              </div>
-            </div>
-            <div class="sm:col-span-2">
-              <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-              <div class="mt-2">
-                <input type="text" name="phone" id="phone" autocomplete="tel"
-                       class="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
-              </div>
-            </div>
+            <!-- Additional shipping fields here... -->
           </div>
         </div>
       </div>
 
       <!-- Right Column: Order Summary & Payment Information -->
-      <div class="mt-10 lg:mt-0 sticky top-32 self-start">
+      <div class="mt-10 lg:mt-0 sticky top-32 self-start" x-data="cart()">
         <h2 class="text-lg font-medium text-gray-900">Order summary</h2>
         <div class="mt-4 rounded-lg border border-gray-200 bg-white shadow-sm">
           <h3 class="sr-only">Items in your cart</h3>
@@ -139,9 +74,8 @@
                     {% endif %}
                   </div>
                   <div class="ml-4 flow-root shrink-0">
-                    <button type="button"
-                            class="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500"
-                            data-item-id="{{ item.id }}">
+                    <button type="button" x-on:click="removeItem({{ item.id }})"
+                            class="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500">
                       <span class="sr-only">Remove</span>
                       <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor"
                            aria-hidden="true">
@@ -154,7 +88,7 @@
                   <p class="mt-1 text-sm font-medium text-gray-900">${{ item.product.price|floatformat:2 }}</p>
                   <div class="ml-4">
                     <div class="grid grid-cols-1">
-                      <select id="quantity" name="quantity_{{ forloop.counter0 }}" aria-label="Quantity"
+                      <select x-model="quantity" x-on:change="updateQuantity({{ item.id }}, quantity)" aria-label="Quantity"
                               class="w-full appearance-none rounded-md bg-white py-2 pl-3 pr-8 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
                         {% for i in "12345678"|slice:":8" %}
                           <option value="{{ forloop.counter }}"

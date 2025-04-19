@@ -1,141 +1,151 @@
+{# shop/templates/shop/partials/nav.html #}
 {% load static %}
+{% load group_tags %}
 
-<div class="bg-white sticky top-0 z-50 shadow-sm">
-  <header class="relative">
-    <nav aria-label="Top">
-      <!-- Promo bar -->
-      <div class="bg-gray-900">
-        <div class="flex h-10 items-center justify-center px-4 sm:px-6 lg:px-8">
-          <p class="text-sm font-medium text-white">
-            Get free delivery on orders over $100
-          </p>
-        </div>
-      </div>
+{# Alpine data for mobile menus #}
+<div x-data="{ mobileMenuOpen: false }">
 
-      <!-- Main nav -->
-      <div class="bg-white border-b border-gray-200">
-        <div class="px-4 sm:px-6 lg:px-8">
-          <div class="flex h-16 items-center justify-between">
-            <!-- Logo -->
-            <div class="flex items-center">
-              <a href="{% url 'shop:index' %}">
-                <span class="sr-only">My E‑commerce Site</span>
-                <img
-                  class="h-8 w-auto"
-                  src="{% static 'shop/images/mark.svg' %}"
-                  alt="Your Company">
-              </a>
-            </div>
+  {# ─────────────────────────────────────────────────────────────────────── #}
+  {# Top Nav: site-wide links, search, user menu, cart #}
+  <nav class="sticky inset-x-0 top-0 z-50 bg-white shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
 
-            <!-- Desktop links -->
-            <div class="hidden lg:flex lg:space-x-8">
-              <a
-                href="{% url 'shop:index' %}"
-                class="text-sm font-medium text-gray-700 hover:text-gray-800">
-                Home
-              </a>
-              <a
-                href="{% url 'shop:products' %}"
-                class="text-sm font-medium text-gray-700 hover:text-gray-800">
-                Products
-              </a>
-              <a
-                href="#"
-                class="text-sm font-medium text-gray-700 hover:text-gray-800">
-                Company
-              </a>
-              <a
-                href="#"
-                class="text-sm font-medium text-gray-700 hover:text-gray-800">
-                Contact
-              </a>
-            </div>
-
-            <!-- Account & Cart -->
-            <div class="flex items-center space-x-6">
-              {% if user.is_authenticated %}
-                <a
-                  href="{% url 'accounts:dashboard' %}"
-                  class="text-sm font-medium text-gray-700 hover:text-gray-800">
-                  Dashboard
-                </a>
-                <a
-                  href="{% url 'accounts:profile' %}"
-                  class="text-sm font-medium text-gray-700 hover:text-gray-800">
-                  Profile
-                </a>
-                <form method="post" action="{% url 'accounts:logout' %}">
-                  {% csrf_token %}
-                  <button
-                    type="submit"
-                    class="text-sm font-medium text-gray-700 hover:text-gray-800">
-                    Sign out
-                  </button>
-                </form>
-              {% else %}
-                <a
-                  href="{% url 'accounts:login' %}"
-                  class="text-sm font-medium text-gray-700 hover:text-gray-800">
-                  Sign in
-                </a>
-                <a
-                  href="{% url 'accounts:register' %}"
-                  class="text-sm font-medium text-gray-700 hover:text-gray-800">
-                  Create account
-                </a>
-              {% endif %}
-
-              <a
-                href="{% url 'cart:cart' %}"
-                class="group -m-2 flex items-center p-2">
-                <svg
-                  class="h-6 w-6 text-gray-400 group-hover:text-gray-500"
-                  fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                  aria-hidden="true">
-                  <path
-                    stroke-linecap="round" stroke-linejoin="round"
-                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835L7.5 14.25…"/>
-                </svg>
-                <span class="ml-1 text-gray-700">
-                  {{ cart_items_count|default:0 }}
-                </span>
-                <span class="sr-only">items in cart</span>
-              </a>
-            </div>
-
-            <!-- Mobile menu button -->
-            <div class="-mr-2 flex lg:hidden">
-              <button
-                type="button"
-                @click="mobileMenuOpen = !mobileMenuOpen"
-                class="p-2 text-gray-400 hover:text-gray-500">
-                <span class="sr-only">Open menu</span>
-                <svg
-                  class="h-6 w-6"
-                  fill="none" stroke-width="1.5" stroke="currentColor"
-                  viewBox="0 0 24 24" aria-hidden="true">
-                  <path
-                    stroke-linecap="round" stroke-linejoin="round"
-                    d="M3.75 5.75h16.5M3.75 12h16.5M3.75 18.25h16.5"/>
-                </svg>
-              </button>
-            </div>
+        <!-- Left: Logo + Primary links -->
+        <div class="flex items-center space-x-8">
+          <a href="{% url 'shop:index' %}" class="flex-shrink-0">
+            <img class="h-8 w-auto" src="{% static 'shop/images/logo.png' %}" alt="Logo">
+          </a>
+          <div class="hidden md:flex space-x-6">
+            <a href="{% url 'shop:index' %}"    class="text-gray-700 hover:text-gray-900">Home</a>
+            <a href="{% url 'shop:products' %}" class="text-gray-700 hover:text-gray-900">Products</a>
+            <a href="{% url 'shop:about' %}"    class="text-gray-700 hover:text-gray-900">Company</a>
+            <a href="{% url 'shop:contact' %}"  class="text-gray-700 hover:text-gray-900">Contact</a>
           </div>
         </div>
+
+        <!-- Right: Search, Auth, Cart -->
+        <div class="flex items-center space-x-4">
+          <!-- Search icon -->
+          <form method="get" action="{% url 'shop:search' %}" class="relative">
+            <label for="nav-search" class="sr-only">Search products</label>
+            <input
+              id="nav-search"
+              name="q"
+              type="search"
+              placeholder="Search..."
+              class="block w-full rounded-md border border-gray-300 bg-white px-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            <button type="submit" class="absolute inset-y-0 right-0 pr-2 flex items-center text-gray-500 hover:text-gray-700">
+              <span class="sr-only">Search</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.9 14.32a8 8 0 111.414-1.414l4.243 4.243a1 1 0 01-1.414 1.414l-4.243-4.243zM8 14a6 6 0 100-12 6 6 0 000 12z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </form>
+
+          {% if user.is_authenticated %}
+            <a href="{% url 'accounts:dashboard' %}" class="text-gray-700 hover:text-gray-900">Dashboard</a>
+            <a href="{% url 'accounts:profile' %}"  class="text-gray-700 hover:text-gray-900">Profile</a>
+            <form method="post" action="{% url 'accounts:logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="text-gray-700 hover:text-gray-900">Logout</button>
+            </form>
+          {% else %}
+            <a href="{% url 'accounts:login' %}"    class="text-gray-700 hover:text-gray-900">Sign in</a>
+            <a href="{% url 'accounts:register' %}" class="text-gray-700 hover:text-gray-900">Register</a>
+          {% endif %}
+
+          <!-- Cart icon -->
+          <a href="{% url 'cart:cart' %}" class="relative group -m-2 flex items-center p-2">
+            <span class="sr-only">View cart</span>
+            <!-- solid cart icon, darker by default -->
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="h-6 w-6 text-gray-700 hover:text-gray-900"
+                 fill="currentColor" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M3 3h2l3 11h10l3-11h2l-3.5 14h-15L3 3zm7 16a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4z" />
+            </svg>
+          
+            {% if cart_items_count > 0 %}
+              <!-- badge shows up only when count > 0 -->
+              <span
+                class="absolute -top-1 -right-1 inline-flex items-center justify-center
+                       px-1.5 py-0.5 text-xs font-bold text-white bg-red-600 rounded-full">
+                {{ cart_items_count }}
+              </span>
+            {% endif %}
+          </a>
+
+          <!-- Mobile toggle -->
+          <button @click="mobileMenuOpen = !mobileMenuOpen"
+                  class="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+            <span class="sr-only">Open menu</span>
+            <svg :class="mobileMenuOpen ? 'hidden' : 'block'" class="h-6 w-6" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg :class="mobileMenuOpen ? 'block' : 'hidden'" class="h-6 w-6" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {# Mobile menu for top nav #}
+    <div x-show="mobileMenuOpen" class="md:hidden bg-white border-t border-gray-200 space-y-1 px-2 py-3">
+      <a href="{% url 'shop:index' %}"    class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">Home</a>
+      <a href="{% url 'shop:products' %}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">Products</a>
+      <a href="{% url 'shop:about' %}"    class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">Company</a>
+      <a href="{% url 'shop:contact' %}"  class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">Contact</a>
+      <a href="{% url 'shop:search' %}"   class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">Search</a>
+
+      {% if user.is_authenticated %}
+        <a href="{% url 'accounts:dashboard' %}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">Dashboard</a>
+        <a href="{% url 'accounts:profile' %}"   class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">Profile</a>
+        <form method="post" action="{% url 'accounts:logout' %}" class="px-3 py-2">
+          {% csrf_token %}
+          <button type="submit" class="w-full text-left text-base text-gray-700 hover:bg-gray-100">Logout</button>
+        </form>
+      {% else %}
+        <a href="{% url 'accounts:login' %}"    class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">Sign in</a>
+        <a href="{% url 'accounts:register' %}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">Register</a>
+      {% endif %}
+
+      <a href="{% url 'cart:cart' %}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">
+        Cart ({{ cart_items_count|default:0 }})
+      </a>
+    </div>
+  </nav>
+
+
+  {# ─────────────────────────────────────────────────────────────────────── #}
+  {# Bottom Nav: only for staff (Owner/Employee) #}
+  {% if user|in_group:"Owner" or user|in_group:"Employee" %}
+    <nav class="sticky top-16 z-40 bg-gray-50 border-t border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center h-12 space-x-8">
+          {% if user|in_group:"Owner" %}
+            <a href="{% url 'accounts:manage_employees' %}" class="text-gray-600 hover:text-gray-800">Manage Employees</a>
+            <a href="{% url 'accounts:add_employee' %}"      class="text-gray-600 hover:text-gray-800">Add Employee</a>
+          {% endif %}
+          <a href="{% url 'shop:list_products' %}" class="text-gray-600 hover:text-gray-800">Manage Products</a>
+          <a href="{% url 'shop:add_product' %}"    class="text-gray-600 hover:text-gray-800">Add Product</a>
+        </div>
       </div>
 
-      <!-- Mobile off‑canvas menu -->
-      <div
-        x-show="mobileMenuOpen"
-        class="lg:hidden"
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-150"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0">
-        
+      {# Mobile bottom nav #}
+      <div x-show="mobileMenuOpen" class="md:hidden bg-gray-50 border-t border-gray-200 px-2 py-2 space-y-1">
+        {% if user|in_group:"Owner" %}
+          <a href="{% url 'accounts:manage_employees' %}" class="block px-3 py-2 rounded-md text-base text-gray-600 hover:bg-gray-100">Manage Employees</a>
+          <a href="{% url 'accounts:add_employee' %}"      class="block px-3 py-2 rounded-md text-base text-gray-600 hover:bg-gray-100">Add Employee</a>
+        {% endif %}
+        <a href="{% url 'shop:list_products' %}" class="block px-3 py-2 rounded-md text-base text-gray-600 hover:bg-gray-100">Manage Products</a>
+        <a href="{% url 'shop:add_product' %}"    class="block px-3 py-2 rounded-md text-base text-gray-600 hover:bg-gray-100">Add Product</a>
       </div>
     </nav>
-  </header>
+  {% endif %}
+
 </div>

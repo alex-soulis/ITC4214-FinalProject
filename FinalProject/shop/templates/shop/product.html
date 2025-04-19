@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ product.name }} – My E‑commerce Site{% endblock %}
+{% block title %}{{ product.name }} - Origins O's{% endblock %}
 
 {% block content %}
 <div class="bg-gray-50 py-16">
@@ -29,7 +29,7 @@
         <div class="mt-4 flex items-center">
           <div class="flex items-center">
             {% for i in "12345" %}
-              {% if forloop.counter <= average_rating|round %}
+            {% if forloop.counter <= average_rating|floatformat:"0" %}
                 <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M..."/></svg>
               {% else %}
                 <svg class="w-5 h-5 text-gray-200" fill="currentColor" viewBox="0 0 20 20"><path d="M..."/></svg>
@@ -44,7 +44,7 @@
         </div>
 
         <!-- Form: color, size, add to cart -->
-        <form method="POST" action="{% url 'cart:add_to_cart' product.id %}" class="mt-8 space-y-6">
+        <form method="POST" action="{% url 'cart:add' product.id %}" class="mt-8 space-y-6">
           {% csrf_token %}
 
           <!-- Colors -->
@@ -52,28 +52,32 @@
             <legend class="text-sm font-medium text-gray-900">Color</legend>
             <div class="mt-2 flex items-center space-x-3">
               {% for color in colors %}
-                <label class="relative">
-                  <input type="radio" name="color" value="{{ color.value }}" class="sr-only" {% if forloop.first %}checked{% endif %}>
-                  <span aria-hidden="true" class="block h-8 w-8 rounded-full border {{ color.bg_class }}"></span>
+                <label>
+                  <input type="radio"
+                         name="color"
+                         value="{{ color.value }}"
+                         class="sr-only"
+                         {% if forloop.first %}checked{% endif %}>
+                  <span aria-hidden="true"
+                        class="block h-8 w-8 rounded-full border {{ color.bg_class }}">
+                  </span>
                 </label>
+              {% empty %}
+                <p class="text-gray-500">No color options.</p>
               {% endfor %}
             </div>
           </fieldset>
 
           <!-- Sizes -->
-          <fieldset class="mt-6">
-            <legend class="flex justify-between text-sm font-medium text-gray-900">
-              <span>Size</span>
-              <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Size chart</a>
-            </legend>
-            <div class="mt-2 grid grid-cols-3 gap-3 sm:grid-cols-6">
-              {% for size in sizes %}
-                <label class="{% if size.disabled %}opacity-25 cursor-not-allowed{% endif %} flex cursor-pointer items-center justify-center rounded-md border px-3 py-2 text-sm uppercase focus:outline-none sm:flex-1">
-                  <input type="radio" name="size" value="{{ size.value }}" class="sr-only" {% if size.disabled %}disabled{% elif forloop.first %}checked{% endif %}>
-                  <span>{{ size.value }}</span>
-                </label>
+          <fieldset>
+            <legend>Size</legend>
+            <select name="size">
+              {% for s in sizes %}
+                <option value="{{ s }}">{{ s }}</option>
+              {% empty %}
+                <option disabled>No sizes available</option>
               {% endfor %}
-            </div>
+            </select>
           </fieldset>
 
           <button type="submit"

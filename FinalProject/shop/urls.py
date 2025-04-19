@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
@@ -18,14 +19,17 @@ urlpatterns = [
     path('search/', views.search, name='search'),
 
     # Add a new product (only accessible by owners or employees)
-    path('employee/add/', views.add_product, name='add_product'),
+    path('employees/add/', views.add_product, name='add_product'),
 
     # List all products (only accessible by owners or employees)
-    path('employee/list/', views.list_products, name='list_products'),
+    path('employees/list/', views.list_products, name='list_products'),
 
     # Edit an existing product (only accessible by owners or employees)
-    path('employee/edit/<int:product_id>/', views.edit_product, name='edit_product'),
+    path('employees/edit/<int:product_id>/', views.edit_product, name='edit_product'),
 
     # Delete an existing product (only accessible by owners or employees)
-    path('employee/delete/<int:product_id>/', views.delete_product, name='delete_product'),
+    path('employees/delete/<int:product_id>/', views.delete_product, name='delete_product'),
+
+    path('about/', TemplateView.as_view(template_name = 'shop/about.html'), name='about'),
+    path('contact/', TemplateView.as_view(template_name = 'shop/contact.html'), name='contact'),
 ]

@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit Product - Origins O's{% endblock %}
+
+{% block content %}
+<div class="min-h-full" x-data="{ mobileMenuOpen: false, userMenuOpen: false }">
+  
+
+  <main class="-pt-24">
+    <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+      <div class="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
+
+        <form method="POST" enctype="multipart/form-data" class="space-y-12">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <div class="space-y-12">
+            <div class="border-b border-gray-900/10 pb-12">
+              <h2 class="text-base font-semibold text-gray-900">Edit Product</h2>
+              <p class="mt-1 text-sm text-gray-600">
+                Update fields below and click “Save” when you're done.
+              </p>
+
+              <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+
+                <!-- Name -->
+                <div class="col-span-full">
+                  <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-900">Name</label>
+                  <div class="mt-2">
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                  </div>
+                </div>
+
+                <!-- Description -->
+                <div class="col-span-full">
+                  <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-900">Description</label>
+                  <div class="mt-2">
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                  </div>
+                </div>
+
+                <!-- Price -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-gray-900">Price</label>
+                  <div class="mt-2">
+                    {{ form.price }}
+                    {{ form.price.errors }}
+                  </div>
+                </div>
+
+                <!-- Brand -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.brand.id_for_label }}" class="block text-sm font-medium text-gray-900">Brand</label>
+                  <div class="mt-2">
+                    {{ form.brand }}
+                    {{ form.brand.errors }}
+                  </div>
+                </div>
+
+                <!-- Stock -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.stock.id_for_label }}" class="block text-sm font-medium text-gray-900">Stock</label>
+                  <div class="mt-2">
+                    {{ form.stock }}
+                    {{ form.stock.errors }}
+                  </div>
+                </div>
+
+                <!-- Category -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-900">Category</label>
+                  <div class="mt-2">
+                    {{ form.category }}
+                    {{ form.category.errors }}
+                  </div>
+                </div>
+
+                <!-- Color -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.color.id_for_label }}" class="block text-sm font-medium text-gray-900">Color</label>
+                  <div class="mt-2">
+                    {{ form.color }}
+                    {{ form.color.errors }}
+                  </div>
+                </div>
+
+                <!-- Size -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.size.id_for_label }}" class="block text-sm font-medium text-gray-900">Size</label>
+                  <div class="mt-2">
+                    {{ form.size }}
+                    {{ form.size.errors }}
+                  </div>
+                </div>
+
+                <!-- Available -->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.available.id_for_label }}" class="block text-sm font-medium text-gray-900">Available</label>
+                  <div class="mt-2">
+                    {{ form.available }}
+                    {{ form.available.errors }}
+                  </div>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="sm:col-span-3">
+                  <label class="block text-sm font-medium text-gray-900">Product Image</label>
+                  <div class="mt-2">
+                    <label class="relative inline-block w-32 h-32 group cursor-pointer">
+                      {% if form.instance.image.name %}
+                        <img src="{{ form.instance.image.url }}" alt="Current product image" class="w-32 h-32 object-cover rounded" />
+                      {% else %}
+                        <div class="w-32 h-32 bg-gray-100 flex items-center justify-center rounded">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89-3.789a2 2 0 011.789 0L20 8m-4 12h4m-4 0a2 2 0 01-2-2v-5a2 2 0 012-2H8a2 2 0 012 2v5a2 2 0 01-2 2H4m16-8V8" />
+                          </svg>
+                        </div>
+                      {% endif %}
+                      <input type="file" name="image" accept="image/*" class="absolute inset-0 w-full h-full opacity-0" />
+                      <div class="absolute inset-0 rounded bg-black bg-opacity-0 group-hover:bg-opacity-30 flex items-center justify-center transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white opacity-0 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89-3.789a2 2 0 011.789 0L20 8m-4 12h4m-4 0a2 2 0 01-2-2v-5a2 2 0 012-2H8a2 2 0 012 2v5a2 2 0 01-2 2H4m16-8V8" />
+                        </svg>
+                      </div>
+                    </label>
+                  </div>
+                  {{ form.image.errors }}
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex justify-end space-x-6">
+            <a href="{% url 'shop:list_products' %}" class="text-sm font-semibold text-gray-900">Cancel</a>
+            <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600">Save Changes</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'shop/js/includes.js' %}"></script>
+{% endblock %}

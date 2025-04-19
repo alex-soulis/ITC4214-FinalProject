@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}About - Origins O's{% endblock %}
+
+{% block content %}
+ 
+
+  <!-- Hero Banner -->
+  <div class="bg-[#475152]">
+    <div class="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:py-24 lg:px-8 text-center">
+      <h1 class="text-4xl font-extrabold text-white sm:text-5xl">
+        About Origins O's
+      </h1>
+      <p class="mt-4 text-xl text-indigo-200 max-w-3xl mx-auto">
+        Crafting quality gear since 2024. Learn more about our story, mission, and values.
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+      <!-- Our Story -->
+      <div class="space-y-6">
+        <h2 class="text-2xl font-bold text-gray-900">Our Story</h2>
+        <p class="text-gray-700 leading-relaxed">
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+          Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s,
+          when an unknown printer took a galley of type and scrambled it to make a
+          type specimen book.
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+          It has survived not only five centuries, but also the leap into electronic
+          typesetting, remaining essentially unchanged. It was popularised in the 1960s
+          with the release of Letraset sheets containing Lorem Ipsum passages.
+        </p>
+      </div>
+
+      <!-- Our Mission + Image -->
+      <div class="space-y-6">
+        <h2 class="text-2xl font-bold text-gray-900">Our Mission</h2>
+        <p class="text-gray-700 leading-relaxed">
+          To provide adventurers everywhere with durable, stylish gear that stands
+          up to the elements and looks great in any setting. We believe in quality,
+          sustainability, and community.
+        </p>
+        <img
+          src="{% static 'shop/images/about-hero.jpg' %}"
+          alt="Team planning an adventure"
+          class="w-full rounded-lg object-cover shadow-lg"
+        >
+      </div>
+    </div>
+  </section>
+
+
+{% endblock %}

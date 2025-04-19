@@ -24,9 +24,8 @@ def view_cart(request):
     items = CartItem.objects.filter(cart=cart) if cart else []
     # Compute summary
     subtotal = sum(item.product.price * item.quantity for item in items)
-    shipping = Decimal('10.00')                   # your logic here
-    tax      = subtotal * Decimal('0.07')         # e.g. 7% 
-    total    = subtotal + shipping + tax
+    shipping = Decimal('00.00')                   # your logic here
+    total    = subtotal + shipping
 
     context = {
         'cart_items': items,
@@ -34,7 +33,6 @@ def view_cart(request):
             'items':    items,
             'subtotal': subtotal,
             'shipping': shipping,
-            'tax':      tax,
             'total':    total,
         },
     }
@@ -43,11 +41,21 @@ def view_cart(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id, available=True)
     cart = _get_cart(request)
-    item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    # grab the customer’s choices
+    size  = request.POST.get('size')
+    color = request.POST.get('color')
+
+    # grouping by product+size+color so different selections get separate line‑items
+    item, created = CartItem.objects.get_or_create(
+         cart=cart,
+         product=product,
+         size=size,
+         color=color,
+     )
     if not created:
         item.quantity += 1
         item.save()
-    return redirect(request.META.get('HTTP_REFERER', 'cart:view_cart'))
+    return redirect(request.META.get('HTTP_REFERER', 'cart:cart'))
 
 @require_POST
 def update_cart(request):
@@ -65,33 +73,31 @@ def update_cart(request):
                 item.save()
             else:
                 item.delete()
-    return redirect('cart:view_cart')
+    return redirect('cart:cart')
 
 @require_POST
 def remove_from_cart(request, item_id):
     cart = _get_cart(request)
     item = get_object_or_404(CartItem, cart=cart, id=item_id)
     item.delete()
-    return redirect('cart:view_cart')
+    return redirect('cart:cart')
 
 @login_required
 def checkout(request):
     cart = get_object_or_404(Cart, user=request.user)
-    items = cart.cartitem_set.all()
+    items = cart.items.all()
     subtotal = sum(item.product.price * item.quantity for item in items)
-    shipping = Decimal('10.00')
-    tax      = subtotal * Decimal('0.07')
-    total    = subtotal + shipping + tax
+    shipping = Decimal('00.00')
+    total    = subtotal + shipping
     order = {
         'items':    items,
         'subtotal': subtotal,
         'shipping': shipping,
-        'tax':      tax,
         'total':    total,
     }
 
     if request.method == 'POST':
-        cart.cartitem_set.all().delete()
+        cart.items.all().delete()
         return redirect('accounts:dashboard')
 
     return render(request, 'cart/checkout.html', {'order': order})

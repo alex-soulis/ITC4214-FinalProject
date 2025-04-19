@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Settings - My E-commerce Site{% endblock %}
+{% block title %}Settings - Origins O's{% endblock %}
 
 {% block content %}
   <div class="min-h-full" x-data="{ mobileMenuOpen: false, userMenuOpen: false }">
-
-    <!-- Navigation -->
-    {% include 'shop/partials/nav.html' %}
 
     <main>
       <div class="bg-gray">
@@ -48,7 +45,7 @@
                   <div class="mt-2">
                     <div class="flex items-center rounded-md bg-white/5 pl-3 outline outline-1 -outline-offset-1 outline-black/10 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500">
                       <div class="shrink-0 select-none text-base text-gray-500 sm:text-sm">
-                        example.com/
+                       
                       </div>
                       <input type="text" name="username" id="username" value="{{ user.username }}"
                              class="block min-w-0 grow bg-transparent py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-500 focus:outline focus:outline-0 sm:text-sm"
@@ -71,9 +68,6 @@
         </div>
       </div>
     </main>
-
-    <!-- Footer -->
-    {% include 'shop/partials/footer.html' %}
 
   </div>
 {% endblock %}

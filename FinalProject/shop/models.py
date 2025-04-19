@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils.text import slugify
+import uuid
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -11,6 +13,11 @@ class Category(models.Model):
         related_name='children'
     )
     slug = models.SlugField(unique=True, default='', blank=True)  # Added for SEO-friendly URLs
+    image = models.ImageField(
+        upload_to='category_images/',
+        null = True,
+        blank = True,
+    )
 
     def __str__(self):
         return self.name
@@ -36,6 +43,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # If slug is empty, generate one from the name + random suffix
+        if not self.slug:
+            base_slug = slugify(self.name)
+            unique_suffix = uuid.uuid4().hex[:6]
+            self.slug = f"{base_slug}-{unique_suffix}"
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'slug': self.slug})

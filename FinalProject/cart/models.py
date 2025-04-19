@@ -4,12 +4,17 @@ from shop.models import Product
 
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Cart of {self.user.username}"
+        return self.user.username if self.user else f"Guest cart #{self.id}"
     
     def get_total_price(self):
         # This method sums the total price of all items in the cart
@@ -20,6 +25,8 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+    size = models.CharField(max_length = 10, null = True, blank = True)
+    color = models.CharField(max_length = 50, null = True, blank = True)
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"
@@ -51,8 +58,8 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         # Calculate the subtotal, shipping, tax, and total dynamically based on order items
         self.subtotal = sum(item.price * item.quantity for item in self.order_items.all())
-        self.shipping = 10.00  # Example fixed shipping cost
-        self.tax = self.subtotal * 0.07  # Example tax rate (7%)
+        self.shipping = 00.00  # Example fixed shipping cost
+        
         self.total = self.subtotal + self.shipping + self.tax
         super().save(*args, **kwargs)
 

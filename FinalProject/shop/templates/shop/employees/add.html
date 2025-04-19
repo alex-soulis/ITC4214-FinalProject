@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Add Product – My E‑commerce Site{% endblock %}
+{% block title %}Add Product - Origins O's{% endblock %}
 
 {% block content %}
 <div class="min-h-full" x-data="{ mobileMenuOpen: false, userMenuOpen: false }">
-  {% include 'shop/partials/employee_nav.html' %}
-  <main class="-mt-32">
-    <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+  
+  <main class="-pt-24 bg-gray-100" >
+    <div class="min-h-full mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
       <div class="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
 
         <form method="POST" enctype="multipart/form-data" class="space-y-12">
@@ -58,6 +58,18 @@
                   </div>
                 </div>
 
+                <!--Brand-->
+                <div class="sm:col-span-2">
+                  <label for="{{ form.brand.id_for_label }}"
+                         class="block text-sm font-medium text-gray-900">
+                    Brand
+                  </label>
+                  <div class="mt-2">
+                    {{ form.brand }}
+                    {{ form.brand.errors }}
+                  </div>
+                </div>
+
                 <!-- Stock -->
                 <div class="sm:col-span-2">
                   <label for="{{ form.stock.id_for_label }}"
@@ -72,8 +84,7 @@
 
                 <!-- Category -->
                 <div class="sm:col-span-2">
-                  <label for="{{ form.category.id_for_label }}"
-                         class="block text-sm font-medium text-gray-900">
+                  <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-900">
                     Category
                   </label>
                   <div class="mt-2">
@@ -135,7 +146,7 @@
 
           <!-- Actions -->
           <div class="mt-6 flex justify-end space-x-6">
-            <a href="{% url 'shop:list' %}"
+            <a href="{% url 'shop:list_products' %}"
                class="text-sm font-semibold text-gray-900">
               Cancel
             </a>

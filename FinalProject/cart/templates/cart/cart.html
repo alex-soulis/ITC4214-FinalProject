@@ -1,31 +1,44 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Shopping Cart - My E-commerce Site{% endblock %}
+{% block title %}Shopping Cart - Origins O's{% endblock %}
 
 {% block content %}
 <div class="bg-gray">
   <div class="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
     <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Shopping Cart</h1>
-    <form class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16" method="POST" action="{% url 'cart:update' %}">
+    <form
+      class="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16"
+      method="POST"
+      action="{% url 'cart:update' %}"
+    >
       {% csrf_token %}
       <!-- Items Section -->
-      <section aria-labelledby="cart-heading" class="lg:col-span-7" x-data="cart()">
+      <section
+        aria-labelledby="cart-heading"
+        class="lg:col-span-7"
+        x-data="cart()"
+      >
         <h2 id="cart-heading" class="sr-only">Items in your shopping cart</h2>
         <ul role="list" class="divide-y divide-gray-200 border-b border-t border-gray-200">
           {% for item in cart_items %}
           <li class="flex py-6 sm:py-10" x-data="{ quantity: {{ item.quantity }} }">
             <div class="shrink-0">
-              <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
-                   class="h-24 w-24 rounded-md object-cover sm:h-48 sm:w-48">
+              <img
+                src="{{ item.product.image.url }}"
+                alt="{{ item.product.name }}"
+                class="h-24 w-24 rounded-md object-cover sm:h-48 sm:w-48"
+              >
             </div>
             <div class="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
               <div class="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
                 <div>
                   <div class="flex justify-between">
                     <h3 class="text-sm">
-                      <a href="{% url 'shop:product_detail' item.product.slug %}"
-                         class="font-medium text-gray-700 hover:text-gray-800">
+                      <a
+                        href="{% url 'shop:product_detail' item.product.id %}"
+                        class="font-medium text-gray-700 hover:text-gray-800"
+                      >
                         {{ item.product.name }}
                       </a>
                     </h3>
@@ -33,7 +46,7 @@
                   <div class="mt-1 flex text-sm">
                     <p class="text-gray-500">{{ item.product.color }}</p>
                     <p class="ml-4 border-l border-gray-200 pl-4 text-gray-500">
-                      {{ item.product.size }}
+                      {{ item.size }}
                     </p>
                   </div>
                   <p class="mt-1 text-sm font-medium text-gray-900">
@@ -42,8 +55,12 @@
                 </div>
                 <div class="mt-4 sm:mt-0 sm:pr-9 relative">
                   <div class="grid w-full max-w-16 grid-cols-1">
-                    <select x-model="quantity" x-on:change="updateQuantity({{ item.id }}, quantity)" aria-label="Quantity, {{ item.product.name }}"
-                            class="appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                    <select
+                      x-model="quantity"
+                      x-on:change="updateItem({{ item.id }}, quantity)"
+                      aria-label="Quantity, {{ item.product.name }}"
+                      class="appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600 sm:text-sm"
+                    >
                       {% for i in "12345678"|slice:":8" %}
                         <option value="{{ forloop.counter }}"
                           {% if item.quantity == forloop.counter %}selected{% endif %}>
@@ -51,30 +68,49 @@
                         </option>
                       {% endfor %}
                     </select>
-                    <svg class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-5 text-gray-500 sm:w-4"
-                         viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                    <svg
+                      class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-5 text-gray-500 sm:w-4"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
                       <path fill-rule="evenodd"
                             d="M4.22 6.22a.75.75 0 011.06 0L8 8.94l2.72-2.72a.75.75 0 111.06 1.06l-3.25 3.25a.75.75 0 01-1.06 0L4.22 7.28a.75.75 0 010-1.06z"
                             clip-rule="evenodd" />
                     </svg>
                   </div>
+
+                  <!-- Remove button posts to cart:remove -->
                   <div class="absolute right-0 top-0">
-                    <button type="button" x-on:click="removeItem({{ item.id }})"
-                            class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500">
+                    <button
+                      type="button"
+                      x-on:click="removeItem('{% url 'cart:remove' item.id %}')"
+                      class="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
+                    >
                       <span class="sr-only">Remove</span>
                       <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path
-                          d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                          d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 
+                             11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 
+                             8.94 6.28 5.22z"
+                        />
                       </svg>
                     </button>
                   </div>
                 </div>
               </div>
               <p class="mt-4 flex space-x-2 text-sm text-gray-700">
-                <svg class="w-5 h-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor"
-                     aria-hidden="true">
+                <svg
+                  class="w-5 h-5 shrink-0 text-green-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
                   <path fill-rule="evenodd"
-                        d="M16.704 4.153a.75.75 0 011.052.143l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z"
+                        d="M16.704 4.153a.75.75 0 011.052.143l-8 
+                           10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 
+                           0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 
+                           0 011.05-.143z"
                         clip-rule="evenodd" />
                 </svg>
                 <span>In stock</span>
@@ -86,7 +122,10 @@
       </section>
 
       <!-- Order Summary Section -->
-      <section aria-labelledby="summary-heading" class="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8 sticky top-32 self-start">
+      <section
+        aria-labelledby="summary-heading"
+        class="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8 sticky top-32 self-start"
+      >
         <h2 id="summary-heading" class="text-lg font-medium text-gray-900">Order summary</h2>
         <dl class="mt-6 space-y-4">
           <div class="flex items-center justify-between">
@@ -95,28 +134,11 @@
           </div>
           <div class="flex items-center justify-between border-t border-gray-200 pt-4">
             <dt class="flex items-center text-sm text-gray-600">
-              <span>Shipping estimate</span>
-              <a href="#" class="ml-2 shrink-0 text-gray-400 hover:text-gray-500">
-                <span class="sr-only">Learn more about shipping</span>
-                <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-.75 0a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
-                </svg>
-              </a>
+              <span>Shipping estimate</span>  
             </dt>
-            <dd class="text-sm font-medium text-gray-900">${{ order.shipping|floatformat:2 }}</dd>
+            <dd class="text-sm font-medium text-gray-900"> Free </dd>
           </div>
-          <div class="flex items-center justify-between border-t border-gray-200 pt-4">
-            <dt class="flex text-sm text-gray-600">
-              <span>Tax estimate</span>
-              <a href="#" class="ml-2 shrink-0 text-gray-400 hover:text-gray-500">
-                <span class="sr-only">Learn more about tax</span>
-                <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-.75 0a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
-                </svg>
-              </a>
-            </dt>
-            <dd class="text-sm font-medium text-gray-900">${{ order.tax|floatformat:2 }}</dd>
-          </div>
+          
           <div class="flex items-center justify-between border-t border-gray-200 pt-4">
             <dt class="text-base font-medium text-gray-900">Order total</dt>
             <dd class="text-base font-medium text-gray-900">${{ order.total|floatformat:2 }}</dd>
@@ -124,10 +146,12 @@
         </dl>
 
         <div class="mt-6">
-          <button type="submit"
-                  class="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-            Checkout
-          </button>
+          
+          <a href = "{% url 'cart:checkout' %}"
+            class="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+           Proceed to Checkout
+          </a>
+          
         </div>
       </section>
     </form>
@@ -136,5 +160,49 @@
 {% endblock %}
 
 {% block extra_scripts %}
-  <script src="{% static 'cart/js/includes.js' %}"></script>
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      document.cookie.split(';').forEach(c => {
+        const [k, v] = c.trim().split('=');
+        if (k === name) cookieValue = decodeURIComponent(v);
+      });
+    }
+    return cookieValue;
+  }
+</script>
+
+<script>
+  function cart() {
+    const csrftoken = getCookie('csrftoken');
+    return {
+      updateItem(itemId, quantity) {
+        const fd = new FormData();
+        fd.append(`quantity_${itemId}`, quantity);
+        fetch("{% url 'cart:update' %}", {
+          method: 'POST',
+          headers: { 'X-CSRFToken': csrftoken },
+          body: fd,
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('Update failed');
+          window.location.reload();
+        })
+        .catch(err => console.error(err));
+      },
+      removeItem(url) {
+        fetch(url, {
+          method: 'POST',
+          headers: { 'X-CSRFToken': csrftoken },
+        })
+        .then(res => {
+          if (!res.ok) throw new Error('Remove failed');
+          window.location.reload();
+        })
+        .catch(err => console.error(err));
+      }
+    }
+  }
+</script>
 {% endblock %}

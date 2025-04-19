@@ -6,10 +6,10 @@ from accounts.decorators import owner_or_employee_required
 
 # Index View - Display featured products and categories
 def index(request):
-    featured_products = Product.objects.filter(available=True)[:8]  # Show top 8 featured products
+    trending_products = Product.objects.filter(available=True).order_by('?')[:6]  # Get random products for trending section
     categories = Category.objects.filter(parent__isnull=True)  # Get top-level categories
     context = {
-        'featured_products': featured_products,
+        'trending_products': trending_products,
         'categories': categories,
     }
     return render(request, 'shop/index.html', context)  # Render homepage template

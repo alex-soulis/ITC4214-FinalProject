@@ -4,172 +4,144 @@
 {% block title %}Contact – Origins O's{% endblock %}
 
 {% block content %}
-  
-
-  {# Hero Banner #}
+  <!-- Hero Banner -->
   <div class="bg-[#475152]">
-    <div class="mx-auto max-w-7xl py-16 px-4 text-center sm:px-6 lg:py-24 lg:px-8">
-      <h1 class="text-4xl font-extrabold text-white sm:text-5xl">
+    <div class="mx-auto max-w-4xl py-20 px-4 text-center sm:px-6 lg:py-28 lg:px-8">
+      <h1 class="text-5xl font-extrabold text-white sm:text-6xl">
         Get in Touch
       </h1>
-      <p class="mt-4 max-w-2xl mx-auto text-xl text-indigo-200">
-        Whether you’re looking to collaborate, join our team, or just say hello—we’re here.
+      <p class="mt-4 max-w-2xl mx-auto text-lg text-indigo-200">
+        Whether you’re looking to collaborate, join our team, or just say hello—we’d love to hear from you.
       </p>
     </div>
   </div>
 
-  {# Contact Methods Grid #}
+  <!-- Contact Methods + Map -->
   <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-4">
-      <div class="rounded-2xl bg-gray-50 p-8 shadow hover:shadow-lg transition">
-        <h3 class="text-lg font-semibold text-gray-900">Collaborate</h3>
-        <dl class="mt-4 space-y-2 text-sm text-gray-600">
-          <div>
-            <dt class="sr-only">Email</dt>
-            <dd>
-              <a href="mailto:collaborate@example.com"
-                 class="font-medium text-indigo-600 hover:underline">
-                collaborate@example.com
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt class="sr-only">Phone</dt>
-            <dd>+1 (555) 905‑2345</dd>
-          </div>
-        </dl>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Contact Cards -->
+      <div class="space-y-6">
+        <div class="rounded-2xl bg-white p-8 shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold text-gray-900">Collaborate</h3>
+          <p class="mt-2 text-gray-600">Have an idea for a partnership? Let’s build it together.</p>
+          <dl class="mt-4 space-y-2 text-sm text-gray-600">
+            <div>
+              <dt class="sr-only">Email</dt>
+              <dd>
+                <a href="mailto:a.soulis@acg.edu"
+                   class="font-medium text-indigo-600 hover:underline">
+                  a.soulis@acg.edu
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt class="sr-only">Phone</dt>
+              <dd>+1 (555) 905‑2345</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="rounded-2xl bg-white p-8 shadow hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold text-gray-900">Join Our Team</h3>
+          <p class="mt-2 text-gray-600">Love what we do? We’re always looking for passionate people.</p>
+          <dl class="mt-4 space-y-2 text-sm text-gray-600">
+            <div>
+              <dt class="sr-only">Email</dt>
+              <dd>
+                <a href="mailto:a.soulis@acg.edu"
+                   class="font-medium text-indigo-600 hover:underline">
+                  a.soulis@acg.edu
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt class="sr-only">Phone</dt>
+              <dd>+1 (555) 905‑4567</dd>
+            </div>
+          </dl>
+        </div>
       </div>
 
-      <div class="rounded-2xl bg-gray-50 p-8 shadow hover:shadow-lg transition">
-        <h3 class="text-lg font-semibold text-gray-900">Press</h3>
-        <dl class="mt-4 space-y-2 text-sm text-gray-600">
-          <div>
-            <dt class="sr-only">Email</dt>
-            <dd>
-              <a href="mailto:press@example.com"
-                 class="font-medium text-indigo-600 hover:underline">
-                press@example.com
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt class="sr-only">Phone</dt>
-            <dd>+1 (555) 905‑3456</dd>
-          </div>
-        </dl>
-      </div>
-
-      <div class="rounded-2xl bg-gray-50 p-8 shadow hover:shadow-lg transition">
-        <h3 class="text-lg font-semibold text-gray-900">Join our team</h3>
-        <dl class="mt-4 space-y-2 text-sm text-gray-600">
-          <div>
-            <dt class="sr-only">Email</dt>
-            <dd>
-              <a href="mailto:careers@example.com"
-                 class="font-medium text-indigo-600 hover:underline">
-                careers@example.com
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt class="sr-only">Phone</dt>
-            <dd>+1 (555) 905‑4567</dd>
-          </div>
-        </dl>
-      </div>
-
-      <div class="rounded-2xl bg-gray-50 p-8 shadow hover:shadow-lg transition">
-        <h3 class="text-lg font-semibold text-gray-900">Say hello</h3>
-        <dl class="mt-4 space-y-2 text-sm text-gray-600">
-          <div>
-            <dt class="sr-only">Email</dt>
-            <dd>
-              <a href="mailto:hello@example.com"
-                 class="font-medium text-indigo-600 hover:underline">
-                hello@example.com
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt class="sr-only">Phone</dt>
-            <dd>+1 (555) 905‑5678</dd>
-          </div>
-        </dl>
+      <!-- Map Embed -->
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Location</h3>
+        <div class="w-full h-64 rounded-xl overflow-hidden shadow">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3143.793863099788!2d23.830525975704244!3d38.00526837192821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14a199709f059559%3A0xad1dacf4713268b2!2sAmerican%20College%20of%20Greece!5e0!3m2!1sen!2sgr!4v1745073349881!5m2!1sen!2sgr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
       </div>
     </div>
   </section>
 
-  {# Contact Form #}
+  <!-- Contact Form -->
   <section class="bg-gray-50">
-    <div class="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
-      <form action="#" method="POST" class="space-y-6">
-        {% csrf_token %}
-        <div>
-          <label for="first-name" class="block text-sm font-medium text-gray-700">
-            First name
-          </label>
-          <input
-            type="text"
-            name="first-name"
-            id="first-name"
-            autocomplete="given-name"
-            required
-            class="mt-1 block w-full rounded-md border-gray-300 bg-white px-3 py-2 text-gray-900
-                   placeholder-gray-400 focus:border-[#475152] focus:ring-[#475152]"
-          >
-        </div>
-        <div>
-          <label for="last-name" class="block text-sm font-medium text-gray-700">
-            Last name
-          </label>
-          <input
-            type="text"
-            name="last-name"
-            id="last-name"
-            autocomplete="family-name"
-            required
-            class="mt-1 block w-full rounded-md border-gray-300 bg-white px-3 py-2 text-gray-900
-                   placeholder-gray-400 focus:border-[#475152] focus:ring-[#475152]"
-          >
-        </div>
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Email address
-          </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            autocomplete="email"
-            required
-            class="mt-1 block w-full rounded-md border-gray-300 bg-white px-3 py-2 text-gray-900
-                   placeholder-gray-400 focus:border-[#475152] focus:ring-[#475152]"
-          >
-        </div>
-        <div>
-          <label for="message" class="block text-sm font-medium text-gray-700">
-            Message
-          </label>
-          <textarea
-            name="message"
-            id="message"
-            rows="4"
-            required
-            class="mt-1 block w-full rounded-md border-gray-300 bg-white px-3 py-2 text-gray-900
-                   placeholder-gray-400 focus:border-[#475152] focus:ring-[#475152]"
-          ></textarea>
-        </div>
-        <div>
-          <button
-            type="submit"
-            class="w-full rounded-md bg-[#475152] px-4 py-2 text-white font-semibold
-                   hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#475152]"
-          >
-            Send Message
-          </button>
-        </div>
-      </form>
+    <div class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-2xl p-8 shadow">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
+        <form action="#" method="POST" class="space-y-6">
+          {% csrf_token %}
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
+              <input
+                type="text"
+                name="first-name"
+                id="first-name"
+                autocomplete="given-name"
+                required
+                class="mt-1 block w-full rounded-md border-gray-300 bg-white px-3 py-2
+                       placeholder-gray-400 focus:border-[#475152] focus:ring-[#475152]"
+              >
+            </div>
+            <div>
+              <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
+              <input
+                type="text"
+                name="last-name"
+                id="last-name"
+                autocomplete="family-name"
+                required
+                class="mt-1 block w-full rounded-md border-gray-300 bg-white px-3 py-2
+                       placeholder-gray-400 focus:border-[#475152] focus:ring-[#475152]"
+              >
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              autocomplete="email"
+              required
+              class="mt-1 block w-full rounded-md border-gray-300 bg-white px-3 py-2
+                     placeholder-gray-400 focus:border-[#475152] focus:ring-[#475152]"
+            >
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+            <textarea
+              name="message"
+              id="message"
+              rows="4"
+              required
+              class="mt-1 block w-full rounded-md border-gray-300 bg-white px-3 py-2
+                     placeholder-gray-400 focus:border-[#475152] focus:ring-[#475152]"
+            ></textarea>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              class="w-full rounded-md bg-[#475152] px-6 py-3 text-white font-semibold
+                     hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#475152]"
+            >
+              Send Message
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </section>
-
 {% endblock %}

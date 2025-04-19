@@ -123,11 +123,11 @@
 
   {# ─────────────────────────────────────────────────────────────────────── #}
   {# Bottom Nav: only for staff (Owner/Employee) #}
-  {% if user|in_group:"Owner" or user|in_group:"Employee" %}
+  {% if user.is_superuser or user|in_group:"Owner" or user|in_group:"Employee" %}
     <nav class="sticky top-16 z-40 bg-gray-50 border-t border-gray-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center h-12 space-x-8">
-          {% if user|in_group:"Owner" %}
+          {% if user.is_superuser or user|in_group:"Owner" %}
             <a href="{% url 'accounts:manage_employees' %}" class="text-gray-600 hover:text-gray-800">Manage Employees</a>
             <a href="{% url 'accounts:add_employee' %}"      class="text-gray-600 hover:text-gray-800">Add Employee</a>
           {% endif %}
@@ -138,7 +138,7 @@
 
       {# Mobile bottom nav #}
       <div x-show="mobileMenuOpen" class="md:hidden bg-gray-50 border-t border-gray-200 px-2 py-2 space-y-1">
-        {% if user|in_group:"Owner" %}
+        {% if user.is_superuser or user|in_group:"Owner" %}
           <a href="{% url 'accounts:manage_employees' %}" class="block px-3 py-2 rounded-md text-base text-gray-600 hover:bg-gray-100">Manage Employees</a>
           <a href="{% url 'accounts:add_employee' %}"      class="block px-3 py-2 rounded-md text-base text-gray-600 hover:bg-gray-100">Add Employee</a>
         {% endif %}
